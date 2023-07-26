@@ -14,6 +14,7 @@ gem "jbuilder"
 gem "redis", "~> 4.0"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
+gem "rspec-rails", "~> 6.0", :groups => [:development, :test]
 gem "slim-rails", "~> 3.6"
 
 # Use Sass to process CSS
@@ -27,5 +28,4 @@ group :development do
   gem "web-console"
 end
 
-gem "rspec-rails", "~> 6.0", :groups => [:development, :test]
 
