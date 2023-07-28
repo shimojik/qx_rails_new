@@ -20,6 +20,9 @@ gem "sassc-rails"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'rubocop', require: false
+  gem 'rubocop-rails'
+  gem 'rubocop-performance'
 end
 
 group :development do

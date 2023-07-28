@@ -1,0 +1,14 @@
+require:
+  - rubocop-rails
+  - rubocop-performance
+AllCops:
+  TargetRubyVersion: 3.2.2
+  NewCops: enable
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+
+# Rails
+Rails:
+  Enabled: true
