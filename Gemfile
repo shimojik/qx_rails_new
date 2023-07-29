@@ -33,6 +33,11 @@ end
 
 group :development do
   gem "web-console"
+  gem 'pry-rails'
+  gem 'guard'
+  gem 'letter_opener'
+  gem 'awesome_print'
+  gem 'dotenv-rails'
 end
 
 
