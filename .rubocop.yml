@@ -1,6 +1,8 @@
 require:
   - rubocop-rails
   - rubocop-performance
+  - rubocop-rspec
+
 AllCops:
   TargetRubyVersion: 3.2.2
   NewCops: enable
@@ -11,4 +13,8 @@ AllCops:
 
 # Rails
 Rails:
+  Enabled: true
+
+# RSpec
+RSpec:
   Enabled: true

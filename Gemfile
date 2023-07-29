@@ -23,6 +23,7 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rails'
   gem 'rubocop-performance'
+  gem 'rubocop-rspec'
 end
 
 group :development do
