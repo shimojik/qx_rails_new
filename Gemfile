@@ -24,6 +24,11 @@ group :development, :test do
   gem 'rubocop-rails'
   gem 'rubocop-performance'
   gem 'rubocop-rspec'
+  gem 'dotenv-rails'
+  gem 'brakeman', require: false
+end
+
+group :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'shoulda-matchers'
@@ -37,10 +42,8 @@ group :development do
   gem 'guard'
   gem 'letter_opener'
   gem 'awesome_print'
-  gem 'dotenv-rails'
   gem 'bullet'
   gem 'rack-mini-profiler'
-  gem 'brakeman', require: false
   gem 'rails-erd'
   gem 'rails_best_practices'
 end
