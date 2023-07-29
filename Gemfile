@@ -24,6 +24,11 @@ group :development, :test do
   gem 'rubocop-rails'
   gem 'rubocop-performance'
   gem 'rubocop-rspec'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'simplecov'
 end
 
 group :development do
