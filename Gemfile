@@ -41,6 +41,8 @@ group :development do
   gem 'bullet'
   gem 'rack-mini-profiler'
   gem 'brakeman', require: false
+  gem 'rails-erd'
+  gem 'rails_best_practices'
 end
 
 
