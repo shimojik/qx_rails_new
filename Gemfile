@@ -38,6 +38,9 @@ group :development do
   gem 'letter_opener'
   gem 'awesome_print'
   gem 'dotenv-rails'
+  gem 'bullet'
+  gem 'rack-mini-profiler'
+  gem 'brakeman', require: false
 end
 
 
