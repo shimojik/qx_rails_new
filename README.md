@@ -23,3 +23,6 @@ bundle exec rspec
 #!/bin/shのすぐ下に追記
 4. `.git/hooks`ディレクトリで以下を実行し、フックスクリプトに実行権限を与えます
 `chmod +x pre-commit`
+
+## Tailwindのビルド
+`rails tailwindcss:watch`
