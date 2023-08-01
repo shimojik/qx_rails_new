@@ -17,6 +17,8 @@ gem "bootsnap", require: false
 gem "rspec-rails", "~> 6.0", :groups => [:development, :test]
 gem "slim-rails", "~> 3.6"
 gem "sassc-rails"
+gem 'devise'
+
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
