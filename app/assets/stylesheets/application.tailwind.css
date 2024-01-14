@@ -88,3 +88,53 @@
 .link {
   @apply text-blue-500;
 }
+.form-label {
+  @apply label;
+}
+.form-wrap {
+  @apply bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10;
+  > .form {
+    @apply space-y-6;
+  }
+}
+.field-wrap {
+  > .label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+  > .textitem {
+    @apply mt-1;
+  }
+  > .textitem > .textfield {
+    @apply appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm;
+  }
+
+  > .selectlist {
+    @apply mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm;
+  }
+  > .submitbutton {
+    @apply mt-5 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600;
+  }
+  > .submitbutton.inactive {
+    @apply bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300;
+  }
+  > .textarea {
+    @apply max-w-lg shadow-sm block w-full focus:ring-blue-600 focus:border-blue-600 sm:text-sm border border-gray-300 rounded-md;
+  }
+}
+.radio-wrap {
+  @apply space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10;
+  > .radioitem {
+    @apply flex items-center;
+  }
+  > .radioitem > .radiobutton {
+    @apply focus:ring-blue-600 h-4 w-4 text-blue-700 border-gray-300;
+  }
+  > .radioitem > .radiotext {
+    @apply ml-3 block text-sm font-medium text-gray-700;
+  }
+}
+.select-wrap {
+  > .selectlist {
+    @apply block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm;
+  }
+}
