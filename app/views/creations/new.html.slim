@@ -1,0 +1,58 @@
+h1.text-2xl.font-bold.mb-4 新しいCreationの作成
+
+= form_with(model: @creation, local: true, class: "space-y-4") do |form|
+  h2.text-xl.font-semibold.mt-4.mb-2 カテゴリ
+  .space-y-2
+    = form.label :content_service, 'カテゴリの選択', class: "block text-sm font-medium text-gray-700"
+    = form.select :content_service, options_for_select(@ai_services.map { |sc| [sc[:info][:name], sc[:name]] }, @selected_ai_service), { include_blank: '選択してください' }, class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md", data: { action: 'change->form#updateFields' }
+
+  #ai-dynamic-fields.space-y-4
+    - if @ai_form_fields
+      - @ai_form_fields.each do |field|
+        .space-y-2
+          = label_tag field[:name], field[:label], class: "block text-sm font-medium text-gray-700"
+          - case field[:type]
+          - when 'text_area'
+            = text_area_tag "ai_form_data[#{field[:name]}]", field[:default], class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", rows: 4
+          - when 'number'
+            = number_field_tag "ai_form_data[#{field[:name]}]", field[:default], class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          - else
+            = text_field_tag "ai_form_data[#{field[:name]}]", field[:default], class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+
+  h2.text-xl.font-semibold.mt-4.mb-2 評価
+  .space-y-2
+    = form.label :evaluation_service, '評価指標の選択', class: "block text-sm font-medium text-gray-700"
+    = form.select :evaluation_service, options_for_select(@evaluation_services.map { |sc| [sc[:info][:name], sc[:name]] }, @selected_evaluation_service), { include_blank: '選択してください' }, class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md", data: { action: 'change->form#updateFields' }
+
+  #evaluation-dynamic-fields.space-y-4
+    - if @evaluation_form_fields
+      - @evaluation_form_fields.each do |field|
+        .space-y-2
+          = label_tag field[:name], field[:label], class: "block text-sm font-medium text-gray-700"
+          - case field[:type]
+          - when 'text_area'
+            = text_area_tag "evaluation_form_data[#{field[:name]}]", field[:default], class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", rows: 4
+          - when 'number'
+            = number_field_tag "evaluation_form_data[#{field[:name]}]", field[:default], class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          - else
+            = text_field_tag "evaluation_form_data[#{field[:name]}]", field[:default], class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+
+  = form.submit 'コンテンツを生成', class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+
+javascript:
+  // 既存の JavaScript コードはそのまま
+
+javascript:
+  document.addEventListener('DOMContentLoaded', function() {
+    const aiServiceSelect = document.querySelector('select[name="creation[content_service]"]');
+    const evaluationServiceSelect = document.querySelector('select[name="creation[evaluation_service]"]');
+
+    function updateFields() {
+      const selectedAiService = aiServiceSelect.value;
+      const selectedEvaluationService = evaluationServiceSelect.value;
+      window.location.href = `${window.location.pathname}?ai=${selectedAiService}&ev=${selectedEvaluationService}`;
+    }
+
+    aiServiceSelect.addEventListener('change', updateFields);
+    evaluationServiceSelect.addEventListener('change', updateFields);
+  });

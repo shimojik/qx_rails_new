@@ -14,7 +14,7 @@ html
           = link_to 'QX', root_path
         .flex.space-x-4.text-sm
           - if user_signed_in?
-            .item= button_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'mt-4'
+            .item= button_to 'ログアウト', destroy_user_session_path, method: :delete
           - else
             .item= link_to 'ログイン', new_user_session_path
             .item= link_to '新規登録', new_user_registration_path
