@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Libarts new
+    title QX New
     meta name="viewport" content="width=device-width,initial-scale=1"
     = csrf_meta_tags
     = csp_meta_tag
@@ -11,7 +11,7 @@ html
     .header-wrap-container
       .header-wrap
         .logo
-          = link_to 'Libarts', root_path
+          = link_to 'QX', root_path
         .menu
           - if user_signed_in?
             .item= button_to 'Logout', destroy_user_session_path, method: :delete, class: 'mt-4'

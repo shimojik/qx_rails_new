@@ -1,8 +1,5 @@
 # README
 
-## rails newコマンド
-`rails _7.0.0_ new libartsnew -d postgresql -T -c tailwind`
-
 ## RuboCopの実行方法
 `bundle exec rubocop`
 
