@@ -18,7 +18,8 @@ gem "rspec-rails", "~> 6.0", :groups => [:development, :test]
 gem "slim-rails", "~> 3.6"
 gem "sassc-rails"
 gem 'devise'
-
+gem 'rails-i18n'
+gem 'devise-i18n'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
