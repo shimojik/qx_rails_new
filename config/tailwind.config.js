@@ -10,7 +10,26 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        sans: [
+          '"ヒラギノ角ゴ ProN"',
+          '"Hiragino Kaku Gothic ProN"',
+          '"ヒラギノ角ゴ Pro"',
+          '"Hiragino Kaku Gothic Pro"',
+          '"游ゴシック"',
+          '"Yu Gothic"',
+          'YuGothic',
+          'メイリオ',
+          'Meiryo',
+          '"ＭＳ ゴシック"',
+          '"MS Gothic"',
+          ...defaultTheme.fontFamily.sans
+        ],
+      },
+      fontSize: {
+        base: '17px',
+      },
+      lineHeight: {
+        normal: '1.6',
       },
     },
   },

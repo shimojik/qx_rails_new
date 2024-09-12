@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body {
+  font-size: 17px;
+  line-height: 1.6;
+}
+.maintitle {
+  @apply text-2xl font-bold;
+}
 
 /* layout */
 .main-wrap {

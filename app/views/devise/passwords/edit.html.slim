@@ -1,22 +1,25 @@
-h2
-  | Change your password
+.form-wrap
+  h2.title.text-2xl.font-bold.mb-4
+    | パスワードの変更
 
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  = render "devise/shared/error_messages", resource: resource
-  = f.hidden_field :reset_password_token
+  = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: 'form space-y-4' }) do |f|
+    = render "devise/shared/error_messages", resource: resource
+    = f.hidden_field :reset_password_token
 
-  .field
-    = f.label :password, "New password"
-    - if @minimum_password_length
-      em
-        | (#{@minimum_password_length} characters minimum)
-    = f.password_field :password, autofocus: true, autocomplete: "new-password"
+    .field-wrap
+      = f.label :password, "新しいパスワード", class: 'label block text-sm font-medium text-gray-700'
+      - if @minimum_password_length
+        em.text-xs.text-gray-500
+          | (#{@minimum_password_length}文字以上)
+      .textitem
+        = f.password_field :password, autofocus: true, autocomplete: "new-password", class: 'textfield mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
 
-  .field
-    = f.label :password_confirmation, "Confirm new password"
-    = f.password_field :password_confirmation, autocomplete: "new-password"
+    .field-wrap
+      = f.label :password_confirmation, "新しいパスワード（確認）", class: 'label block text-sm font-medium text-gray-700'
+      .textitem
+        = f.password_field :password_confirmation, autocomplete: "new-password", class: 'textfield mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
 
-  .actions
-    = f.submit "Change my password"
+    .actions.mt-6
+      = f.submit "パスワードを変更する", class: 'inline-block py-3 px-7 mb-6 w-full text-base text-white font-medium text-center leading-6 bg-black hover:bg-gray-800 focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 rounded-md'
 
-= render "devise/shared/links"
+  = render "devise/shared/links"

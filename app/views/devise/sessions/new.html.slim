@@ -1,23 +1,23 @@
-h2.title
-  | ログイン
-
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .field-wrap
-    = f.label :email, class: 'label'
-    .textitem
-      = f.email_field :email, autofocus: true, autocomplete: "email", class: 'textfield'
-
-  .field-wrap
-    = f.label :password, class: 'label'
-    .textitem
-      = f.password_field :password, autocomplete: "current-password", class: 'textfield'
-
-  - if devise_mapping.rememberable?
+.form-wrap
+  h2.title.text-2xl.font-bold.mb-4
+    | ログイン
+  = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form space-y-4' }) do |f|
     .field-wrap
-      = f.check_box :remember_me
-      = f.label :remember_me
+      = f.label :email, class: 'label block text-sm font-medium text-gray-700'
+      .textitem
+        = f.email_field :email, autofocus: true, autocomplete: "email", class: 'textfield mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
 
-  .actions
-    = f.submit "ログイン"
+    .field-wrap
+      = f.label :password, class: 'label block text-sm font-medium text-gray-700'
+      .textitem
+        = f.password_field :password, autocomplete: "current-password", class: 'textfield mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
 
-= render "devise/shared/links"
+    - if devise_mapping.rememberable?
+      .field-wrap.flex.items-center
+        = f.check_box :remember_me, class: 'mb-0.5 h-4 w-4 text-blue-600 border-gray-300 rounded'
+        = f.label :remember_me, class: 'ml-2 block text-sm text-gray-900'
+
+    .actions.mt-6
+      = f.submit "ログイン", class: 'inline-block py-3 px-7 mb-6 w-full text-base text-white font-medium text-center leading-6 bg-black hover:bg-gray-800 focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 rounded-md'
+
+  = render "devise/shared/links"

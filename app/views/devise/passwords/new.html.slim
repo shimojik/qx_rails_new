@@ -1,15 +1,16 @@
-h2
-  | Forgot your password?
+.form-wrap
+  h2.title.text-2xl.font-bold.mb-4
+    | パスワードをお忘れですか？
 
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-  = render "devise/shared/error_messages", resource: resource
+  = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'form space-y-4' }) do |f|
+    = render "devise/shared/error_messages", resource: resource
 
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true, autocomplete: "email"
+    .field-wrap
+      = f.label :email, class: 'label block text-sm font-medium text-gray-700'
+      .textitem
+        = f.email_field :email, autofocus: true, autocomplete: "email", class: 'textfield mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
 
-  .actions
-    = f.submit "Send me reset password instructions"
+    .actions.mt-6
+      = f.submit "パスワード再設定の手順を送信する", class: 'inline-block py-3 px-7 mb-6 w-full text-base text-white font-medium text-center leading-6 bg-black hover:bg-gray-800 focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 rounded-md'
 
-= render "devise/shared/links"
+  = render "devise/shared/links"

@@ -8,28 +8,28 @@ html
     = stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload"
     = javascript_importmap_tags
   body
-    .bg-black.text-white.text-xl.py-2.border-b-3
+    .bg-black.text-white.text-xl.py-2.border-b-3.header-wrap-container
       .mx-4.md:mx-6.flex.justify-between.items-center
         .logo
           = link_to 'QX', root_path
         .flex.space-x-4.text-sm
           - if user_signed_in?
-            .item= button_to 'Logout', destroy_user_session_path, method: :delete, class: 'mt-4'
+            .item= button_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'mt-4'
           - else
-            .item= link_to 'Login', new_user_session_path
-            .item= link_to 'Sign up', new_user_registration_path
-    .flex.mt-4.mx-2.m-auto.space-x-2
-      .w-1/4.bg-black.text-white.py-4.rounded.shadow-xl.border-r-2.space-y-4.overflow-auto
+            .item= link_to 'ログイン', new_user_session_path
+            .item= link_to '新規登録', new_user_registration_path
+    .flex.mt-2.mx-2.mx-auto[class='space-x-0 md:space-x-2 px-2']
+      .bg-black.text-white.py-4.rounded.shadow-xl.border-r-2.space-y-4.overflow-auto[class='w-1/4 hidden md:block']
         - 10.times do |i|
           .section
             .px-6.pb-1 メニュー#{i+1}
             .px-8.py-1.text-sm.hover:bg-white.hover:font-bold.hover:text-black= link_to "メニュー#{i+1}-1", "#"
             .px-8.py-1.text-sm.hover:bg-white.hover:font-bold.hover:text-black= link_to "メニュー#{i+1}-2", "#"
             .px-8.py-1.text-sm.hover:bg-white.hover:font-bold.hover:text-black= link_to "メニュー#{i+1}-3", "#"
-      .w-3/4
+      div[class='w-full md:w-3/4']
         - if notice
-          p.notice = notice
+          p.notice= notice
         - if alert
-          p.alert = alert
-        main.main-body
+          p.alert= alert
+        div.bg-gray-100.rounded.px-6.py-4
           = yield
