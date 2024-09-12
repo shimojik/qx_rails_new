@@ -20,6 +20,9 @@ gem "sassc-rails"
 gem 'devise'
 gem 'rails-i18n'
 gem 'devise-i18n'
+gem 'ruby-openai'
+gem "anthropic", "~> 0.3.0"
+gem 'langchainrb'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
