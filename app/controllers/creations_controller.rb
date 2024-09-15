@@ -8,6 +8,8 @@ class CreationsController < ApplicationController
     @selected_evaluation_service = params[:ev]
     @ai_form_fields = get_form_fields('Ai', @selected_ai_service) if @selected_ai_service
     @evaluation_form_fields = get_form_fields('Evaluations', @selected_evaluation_service) if @selected_evaluation_service
+
+    render_custom_view(:new)
   end
 
   def create
@@ -45,13 +47,13 @@ class CreationsController < ApplicationController
     if @creation.save
       redirect_to @creation, notice: 'Content was successfully generated and evaluated.'
     else
-      # エラー処理
       @ai_services = get_services('Ai')
       @evaluation_services = get_services('Evaluations')
       @selected_ai_service = @creation.content_service
       @selected_evaluation_service = @creation.evaluation_service
       @ai_form_fields = get_form_fields('Ai', @selected_ai_service)
       @evaluation_form_fields = get_form_fields('Evaluations', @selected_evaluation_service)
+
       render :new
     end
   end
@@ -59,6 +61,8 @@ class CreationsController < ApplicationController
   def show
     @creation = Creation.find_by(uid: params[:uid])
     @ai_services = get_services('Ai')
+    @selected_ai_service = @creation.content_service
+    render_custom_view(:show)
   end
 
   def index
@@ -71,6 +75,8 @@ class CreationsController < ApplicationController
     @evaluation_services = get_services('Evaluations')
     @selected_ai_service = params[:ai]
     @selected_evaluation_service = params[:ev]
+
+    render_custom_view(:index)
   end
 
   private
@@ -89,5 +95,14 @@ class CreationsController < ApplicationController
   def get_form_fields(namespace, service_name)
     return nil unless service_name
     "#{namespace}::#{service_name.camelize}".constantize.form_fields rescue nil
+  end
+
+  def render_custom_view(default_view)
+    custom_view = "creations/#{@selected_ai_service}/#{default_view}"
+    if template_exists = lookup_context.template_exists?(custom_view, [], false)
+      render custom_view
+    else
+      render default_view
+    end
   end
 end
