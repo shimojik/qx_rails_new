@@ -23,7 +23,8 @@ html
         .section
           .px-6.pb-1 機能一覧
           - get_services('Ai').each do |service|
-            .px-8.py-1.text-sm.hover:bg-white.hover:font-bold.hover:text-black
+            - is_selected = params[:ai] == service[:name]
+            div class="px-8 py-1 text-sm #{is_selected ? 'bg-white font-bold text-black' : 'hover:bg-white hover:font-bold hover:text-black'}"
               = link_to "#{service[:info][:name]}", "/creations?ai=#{service[:name]}"
       div[class='w-full md:w-3/4']
         = render 'shared/flash_messages'
