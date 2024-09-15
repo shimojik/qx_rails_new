@@ -23,7 +23,7 @@ html
         .section
           .px-6.pb-1 機能一覧
           - get_services('Ai').each do |service|
-            - is_selected = params[:ai] == service[:name]
+            - is_selected = @selected_ai_service == service[:name]
             div class="px-8 py-1 text-sm #{is_selected ? 'bg-white font-bold text-black' : 'hover:bg-white hover:font-bold hover:text-black'}"
               = link_to "#{service[:info][:name]}", "/creations?ai=#{service[:name]}"
       div[class='w-full md:w-3/4']

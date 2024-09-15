@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  helper_method :get_services
+  helper_method :get_services, :current_ai_service
   def get_services(namespace)
     Dir[Rails.root.join('app', 'services', namespace.downcase, '*.rb')].map do |f|
       service_name = File.basename(f, '.rb')
@@ -9,5 +9,9 @@ class ApplicationController < ActionController::Base
         info: service_class.service_info
       }
     end
+  end
+
+  def current_ai_service
+    @creation&.content_service || params[:ai]
   end
 end

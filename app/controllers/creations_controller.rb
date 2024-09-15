@@ -4,7 +4,7 @@ class CreationsController < ApplicationController
     @creation = Creation.new
     @ai_services = get_services('Ai')
     @evaluation_services = get_services('Evaluations')
-    @selected_ai_service = params[:ai]
+    @selected_ai_service = current_ai_service
     @selected_evaluation_service = params[:ev]
     @ai_form_fields = get_form_fields('Ai', @selected_ai_service) if @selected_ai_service
     @evaluation_form_fields = get_form_fields('Evaluations', @selected_evaluation_service) if @selected_evaluation_service
@@ -15,6 +15,9 @@ class CreationsController < ApplicationController
   def create
     @creation = Creation.new(creation_params)
     @creation.user = current_user
+
+    @selected_ai_service = current_ai_service
+    @selected_evaluation_service = @creation.evaluation_service
 
     # AIサービスのフォームデータを取得
     ai_form_data = params[:ai_form_data] || {}
@@ -61,19 +64,19 @@ class CreationsController < ApplicationController
   def show
     @creation = Creation.find_by(uid: params[:uid])
     @ai_services = get_services('Ai')
-    @selected_ai_service = @creation.content_service
+    @selected_ai_service = current_ai_service
     render_custom_view(:show)
   end
 
   def index
-    if params[:ai]
-      @creations = Creation.where(content_service: params[:ai]).order('id DESC')
+    if current_ai_service
+      @creations = Creation.where(content_service: current_ai_service).order('id DESC')
     else
       @creations = Creation.order('id DESC')
     end
     @ai_services = get_services('Ai')
     @evaluation_services = get_services('Evaluations')
-    @selected_ai_service = params[:ai]
+    @selected_ai_service = current_ai_service
     @selected_evaluation_service = params[:ev]
 
     render_custom_view(:index)

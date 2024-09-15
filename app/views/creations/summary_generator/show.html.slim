@@ -1,4 +1,4 @@
-= render 'shared/backbutton', link: creations_path + (params[:ai] ? "?ai=#{params[:ai]}" : ""), text: '一覧に戻る'
+= render 'shared/backbutton', link: creations_path + (@selected_ai_service ? "?ai=#{@selected_ai_service}" : ""), text: '一覧に戻る'
 
 h1.text-2xl.font-bold.mb-4 要約の詳細
 
