@@ -1,5 +1,26 @@
 class CreationsController < ApplicationController
   before_action :authenticate_user!
+  def index
+    if current_ai_service
+      @creations = Creation.where(content_service: current_ai_service).order('id DESC')
+    else
+      @creations = Creation.order('id DESC')
+    end
+    @ai_services = get_services('Ai')
+    @evaluation_services = get_services('Evaluations')
+    @selected_ai_service = current_ai_service
+    @selected_evaluation_service = params[:ev]
+
+    render_custom_view(:index)
+  end
+
+  def show
+    @creation = Creation.find_by(uid: params[:uid])
+    @ai_services = get_services('Ai')
+    @selected_ai_service = current_ai_service
+    render_custom_view(:show)
+  end
+
   def new
     @creation = Creation.new
     @ai_services = get_services('Ai')
@@ -38,7 +59,7 @@ class CreationsController < ApplicationController
       evaluation_service = "Evaluations::#{@creation.evaluation_service.camelize}".constantize
       
       # 評価サービスに渡すパラメータを準備
-      evaluation_params = evaluation_form_data.merge(content: content)
+      evaluation_params = evaluation_form_data.merge(original_text: ai_form_data[:body], content: content)
       
       evaluation = evaluation_service.evaluate(evaluation_params)
       
@@ -60,28 +81,6 @@ class CreationsController < ApplicationController
       render :new
     end
   end
-
-  def show
-    @creation = Creation.find_by(uid: params[:uid])
-    @ai_services = get_services('Ai')
-    @selected_ai_service = current_ai_service
-    render_custom_view(:show)
-  end
-
-  def index
-    if current_ai_service
-      @creations = Creation.where(content_service: current_ai_service).order('id DESC')
-    else
-      @creations = Creation.order('id DESC')
-    end
-    @ai_services = get_services('Ai')
-    @evaluation_services = get_services('Evaluations')
-    @selected_ai_service = current_ai_service
-    @selected_evaluation_service = params[:ev]
-
-    render_custom_view(:index)
-  end
-
   private
   def creation_params
     params.require(:creation).permit(:content_service, :evaluation_service)
