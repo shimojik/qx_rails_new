@@ -4,7 +4,7 @@ import "controllers"
 import jquery from "jquery"
 window.$ = jquery
 import { myFunction } from "./my_module";
-
+import "custom/fadenotification";
 document.addEventListener("DOMContentLoaded", () => {
     myFunction();
 });

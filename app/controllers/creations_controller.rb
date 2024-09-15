@@ -62,7 +62,11 @@ class CreationsController < ApplicationController
   end
 
   def index
-    @creations = Creation.order('id DESC')
+    if params[:ai]
+      @creations = Creation.where(content_service: params[:ai]).order('id DESC')
+    else
+      @creations = Creation.order('id DESC')
+    end
     @ai_services = get_services('Ai')
     @evaluation_services = get_services('Evaluations')
     @selected_ai_service = params[:ai]
@@ -85,16 +89,5 @@ class CreationsController < ApplicationController
   def get_form_fields(namespace, service_name)
     return nil unless service_name
     "#{namespace}::#{service_name.camelize}".constantize.form_fields rescue nil
-  end
-
-  def get_services(namespace)
-    Dir[Rails.root.join('app', 'services', namespace.downcase, '*.rb')].map do |f|
-      service_name = File.basename(f, '.rb')
-      service_class = "#{namespace}::#{service_name.camelize}".constantize
-      {
-        name: service_name,
-        info: service_class.service_info
-      }
-    end
   end
 end
