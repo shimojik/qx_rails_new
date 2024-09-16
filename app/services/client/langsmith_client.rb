@@ -36,14 +36,28 @@ module Client
       handle_response(response)
     end
 
+    def get_thread_state(thread_id:)
+      response = @connection.get("/threads/#{thread_id}/state") do |req|
+        req.headers['x-api-key'] = @api_key
+      end
+    
+      handle_response(response)
+    end
+
     def create_run(thread_id:, assistant_id:, question:)
-      binding.b
       payload = {
         assistant_id: assistant_id,
-        input: { question: question }
+        input: {
+          messages: [
+            { role: "user", content: question }
+          ]
+        },
+        metadata: {
+          user: "qx"
+        }
       }
 
-      response = @connection.post("/threads/#{thread_id}/runs/wait") do |req|
+      response = @connection.post("/threads/#{thread_id}/runs") do |req|
         req.headers['x-api-key'] = @api_key
         req.body = payload
       end
@@ -51,13 +65,28 @@ module Client
       handle_response(response)
     end
 
+    def wait_run(thread_id:, run_id:)
+      response = @connection.get("/threads/#{thread_id}/runs/#{run_id}/wait") do |req|
+        req.headers['x-api-key'] = @api_key
+      end
+
+      handle_response(response)
+    end
+
+    # def get_run(thread_id:, run_id:)
+    #   response = @connection.post("/threads/#{thread_id}/runs/#{run_id}") do |req|
+    #     req.headers['x-api-key'] = @api_key
+    #   end
+  
+    #   handle_response(response)
+    # end
+
     def get_run_result(thread_id:, run_id:)
       response = @connection.get("/threads/#{thread_id}/runs/#{run_id}") do |req|
         req.headers['x-api-key'] = @api_key
       end
 
-      result = handle_response(response)
-      result[:kwargs][:output][:answer] if result
+      handle_response(response)
     end
 
     def delete_assistant(assistant_id)

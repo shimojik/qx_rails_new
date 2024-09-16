@@ -33,12 +33,33 @@ module Assistants
         question: params[:body]
       )
 
-      return { body: 'ランの作成に失敗しました。' } unless run
 
-      result = langsmith_client.get_run_result(
-        thread_id: thread[:thread_id],
-        run_id: run[:run_id]
-      )
+      wait_result = nil
+      start_time = Time.now
+      loop do
+        wait_result = langsmith_client.get_run_result(
+          thread_id: thread[:thread_id],
+          run_id: run[:run_id]
+        )
+        if wait_result[:status] == 'success'
+          break
+        elsif Time.now - start_time > 20
+          return false
+        end
+        sleep 2
+      end
+
+      thread_state = langsmith_client.get_thread_state(thread_id: thread[:thread_id])
+      if thread_state
+        if thread_state[:values] && thread_state[:values][:messages] #&& thread_state[:values][:messages].last && thread_state[:values][:messages].last[:content] && thread_state[:values][:messages].last[:content].first && thread_state[:values][:messages].last[:content].first[:text]
+          messages = thread_state[:values][:messages]
+          result = messages.select { |msg| msg[:type] == 'ai' }.each_with_index.map { |msg, index| "#{msg[:content][0][:text]}" }.join("\n")
+        else
+          result = 'スレッドの状態にメッセージが含まれていません。'
+        end
+      else
+        result = 'スレッドの状態の取得に失敗しました。'
+      end
 
       langsmith_client.delete_assistant(assistant[:assistant_id]) if assistant[:assistant_id]
 
