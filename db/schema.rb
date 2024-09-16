@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_12_161653) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_16_120148) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "creations", force: :cascade do |t|
     t.string "uid"
-    t.string "content_service"
+    t.string "assistant_service"
     t.string "evaluation_service"
     t.json "original_prompt"
     t.text "original_prompt_body"

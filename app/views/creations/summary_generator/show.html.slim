@@ -12,7 +12,7 @@ h1.text-2xl.font-bold.mb-4 要約の詳細
         .bg-gray-50.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
           dt.text-sm.font-medium.text-gray-500 入力
           dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2
-            - service_class = "Assistants::#{@creation.content_service.camelize}".constantize
+            - service_class = "Assistants::#{@creation.assistant_service.camelize}".constantize
             - form_fields = service_class.form_fields
             - form_fields.each do |field|
               .mb-2

@@ -17,9 +17,9 @@ h1.text-2xl.font-bold.mb-2 コンテンツ一覧
         - @creations.each do |creation|
           tr
             td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
-              = link_to (@ai_services.find { |sc| sc[:name] == creation.content_service }&.dig(:info, :name) || creation.content_service), creation
+              = link_to (@ai_services.find { |sc| sc[:name] == creation.assistant_service }&.dig(:info, :name) || creation.assistant_service), creation
             td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
-              - service_class = "Assistants::#{creation.content_service.camelize}".constantize
+              - service_class = "Assistants::#{creation.assistant_service.camelize}".constantize
               - form_fields = service_class.form_fields
               - form_fields.each do |field|
                 .mb-2

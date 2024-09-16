@@ -2,7 +2,7 @@ class CreationsController < ApplicationController
   before_action :authenticate_user!
   def index
     if current_ai_service
-      @creations = Creation.where(content_service: current_ai_service).order('id DESC')
+      @creations = Creation.where(assistant_service: current_ai_service).order('id DESC')
     else
       @creations = Creation.order('id DESC')
     end
@@ -49,7 +49,7 @@ class CreationsController < ApplicationController
     # original_prompt に AIサービスのフォームデータを格納
     @creation.original_prompt = ai_form_data
 
-    ai_service = "Assistants::#{@creation.content_service.camelize}".constantize
+    ai_service = "Assistants::#{@creation.assistant_service.camelize}".constantize
     content = ai_service.generate(ai_form_data)
     
     @creation.content = content
@@ -73,7 +73,7 @@ class CreationsController < ApplicationController
     else
       @ai_services = get_services('Assistants')
       @evaluation_services = get_services('Evaluations')
-      @selected_ai_service = @creation.content_service
+      @selected_ai_service = @creation.assistant_service
       @selected_evaluation_service = @creation.evaluation_service
       @ai_form_fields = get_form_fields('Assistants', @selected_ai_service)
       @evaluation_form_fields = get_form_fields('Evaluations', @selected_evaluation_service)
@@ -83,7 +83,7 @@ class CreationsController < ApplicationController
   end
   private
   def creation_params
-    params.require(:creation).permit(:content_service, :evaluation_service)
+    params.require(:creation).permit(:assistant_service, :evaluation_service)
   end
 
   def ai_form_params

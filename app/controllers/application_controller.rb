@@ -12,6 +12,6 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ai_service
-    @creation&.content_service || params[:ai]
+    @creation&.assistant_service || params[:ai]
   end
 end

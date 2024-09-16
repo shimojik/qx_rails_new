@@ -4,8 +4,8 @@ h1.text-2xl.font-bold.mb-4 新しいコンテンツの作成
 = form_with(model: @creation, local: true, class: "space-y-4") do |form|
   h2.text-xl.font-semibold.mt-4.mb-2 カテゴリ
   .space-y-2
-    = form.label :content_service, 'カテゴリの選択', class: "block text-sm font-medium text-gray-700"
-    = form.select :content_service, options_for_select(@ai_services.map { |sc| [sc[:info][:name], sc[:name]] }, @selected_ai_service), { include_blank: '選択してください' }, class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md", data: { action: 'change->form#updateFields' }
+    = form.label :assistant_service, 'カテゴリの選択', class: "block text-sm font-medium text-gray-700"
+    = form.select :assistant_service, options_for_select(@ai_services.map { |sc| [sc[:info][:name], sc[:name]] }, @selected_ai_service), { include_blank: '選択してください' }, class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md", data: { action: 'change->form#updateFields' }
 
   #ai-dynamic-fields.space-y-4
     - if @ai_form_fields
@@ -45,7 +45,7 @@ javascript:
 
 javascript:
   document.addEventListener('DOMContentLoaded', function() {
-    const aiServiceSelect = document.querySelector('select[name="creation[content_service]"]');
+    const aiServiceSelect = document.querySelector('select[name="creation[assistant_service]"]');
     const evaluationServiceSelect = document.querySelector('select[name="creation[evaluation_service]"]');
 
     function updateFields() {

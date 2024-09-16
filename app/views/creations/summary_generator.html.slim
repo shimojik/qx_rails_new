@@ -10,8 +10,8 @@ h1 サマリージェネレーター
           li = message
 
   .field
-    = form.label :content_service, "Content Service"
-    = form.select :content_service, options_for_select(@ai_services, @selected_ai_service), prompt: "サービスを選択"
+    = form.label :assistant_service, "Content Service"
+    = form.select :assistant_service, options_for_select(@ai_services, @selected_ai_service), prompt: "サービスを選択"
 
   .field
     = form.label :evaluation_service, "Evaluation Service"
