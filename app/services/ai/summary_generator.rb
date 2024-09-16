@@ -44,10 +44,10 @@ module Ai
       assistant.add_message_and_run(content: params[:body])
 
       messages = assistant.messages
-      summary = messages.last.content
+      content = messages.last.content
 
       {
-        body: summary,
+        body: content,
       }
     end
   end
