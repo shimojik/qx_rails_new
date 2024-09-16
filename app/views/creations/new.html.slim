@@ -49,9 +49,9 @@ javascript:
     const evaluationServiceSelect = document.querySelector('select[name="creation[evaluation_service]"]');
 
     function updateFields() {
-      const selectedAiService = aiServiceSelect.value;
+      const selectedAssistantsService = aiServiceSelect.value;
       const selectedEvaluationService = evaluationServiceSelect.value;
-      window.location.href = `${window.location.pathname}?ai=${selectedAiService}&ev=${selectedEvaluationService}`;
+      window.location.href = `${window.location.pathname}?ai=${selectedAssistantsService}&ev=${selectedEvaluationService}`;
     }
 
     aiServiceSelect.addEventListener('change', updateFields);

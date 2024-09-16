@@ -6,7 +6,7 @@ class CreationsController < ApplicationController
     else
       @creations = Creation.order('id DESC')
     end
-    @ai_services = get_services('Ai')
+    @ai_services = get_services('Assistants')
     @evaluation_services = get_services('Evaluations')
     @selected_ai_service = current_ai_service
     @selected_evaluation_service = params[:ev]
@@ -16,18 +16,18 @@ class CreationsController < ApplicationController
 
   def show
     @creation = Creation.find_by(uid: params[:uid])
-    @ai_services = get_services('Ai')
+    @ai_services = get_services('Assistants')
     @selected_ai_service = current_ai_service
     render_custom_view(:show)
   end
 
   def new
     @creation = Creation.new
-    @ai_services = get_services('Ai')
+    @ai_services = get_services('Assistants')
     @evaluation_services = get_services('Evaluations')
     @selected_ai_service = current_ai_service
     @selected_evaluation_service = params[:ev]
-    @ai_form_fields = get_form_fields('Ai', @selected_ai_service) if @selected_ai_service
+    @ai_form_fields = get_form_fields('Assistants', @selected_ai_service) if @selected_ai_service
     @evaluation_form_fields = get_form_fields('Evaluations', @selected_evaluation_service) if @selected_evaluation_service
 
     render_custom_view(:new)
@@ -49,7 +49,7 @@ class CreationsController < ApplicationController
     # original_prompt に AIサービスのフォームデータを格納
     @creation.original_prompt = ai_form_data
 
-    ai_service = "Ai::#{@creation.content_service.camelize}".constantize
+    ai_service = "Assistants::#{@creation.content_service.camelize}".constantize
     content = ai_service.generate(ai_form_data)
     
     @creation.content = content
@@ -71,11 +71,11 @@ class CreationsController < ApplicationController
     if @creation.save
       redirect_to @creation, notice: 'Content was successfully generated and evaluated.'
     else
-      @ai_services = get_services('Ai')
+      @ai_services = get_services('Assistants')
       @evaluation_services = get_services('Evaluations')
       @selected_ai_service = @creation.content_service
       @selected_evaluation_service = @creation.evaluation_service
-      @ai_form_fields = get_form_fields('Ai', @selected_ai_service)
+      @ai_form_fields = get_form_fields('Assistants', @selected_ai_service)
       @evaluation_form_fields = get_form_fields('Evaluations', @selected_evaluation_service)
 
       render :new
