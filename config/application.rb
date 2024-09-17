@@ -40,5 +40,8 @@ module QXnew
     config.generators.system_tests = nil
     config.i18n.default_locale = :ja
     config.autoload_paths += %W(#{config.root}/app/services)
+
+    # Active Job のキューアダプタを Sidekiq に設定
+    config.active_job.queue_adapter = :sidekiq
   end
 end

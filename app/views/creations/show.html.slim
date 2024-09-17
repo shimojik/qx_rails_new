@@ -1,46 +1,47 @@
 = render 'shared/backbutton', link: creations_path + (@selected_ai_service ? "?ai=#{@selected_ai_service}" : ""), text: '一覧に戻る'
 
-h1.text-2xl.font-bold.mb-4 コンテンツ詳細
+- if @creation.content.present?
+  .space-y-4
+    .bg-white.shadow.overflow-hidden.sm:rounded-lg
+      .px-4.py-5.sm:px-6
+        h3.text-lg.leading-6.font-medium.text-gray-900
+          = (@ai_services.find { |sc| sc[:name] == @creation.assistant_service }&.dig(:info, :name) || @creation.assistant_service)
 
-.space-y-4
-  .bg-white.shadow.overflow-hidden.sm:rounded-lg
-    .px-4.py-5.sm:px-6
-      h3.text-lg.leading-6.font-medium.text-gray-900 内容
+      .border-t.border-gray-200
+        dl
+          .bg-gray-50.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
+            dt.text-sm.font-medium.text-gray-500 入力
+            dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2
+              - service_class = get_assistant_service_class(@creation.assistant_service)
+              - if service_class
+                - form_fields = service_class.form_fields
+                - form_fields.each do |field|
+                  .mb-2
+                    strong = "#{field[:label]}"
+                    br
+                    = @creation.original_prompt[field[:name]]
 
-    .border-t.border-gray-200
-      dl
-        .bg-gray-50.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
-          dt.text-sm.font-medium.text-gray-500 カテゴリ
-          dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2 = (@ai_services.find { |sc| sc[:name] == @creation.assistant_service }&.dig(:info, :name) || @creation.assistant_service)
+          .bg-white.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
+            dt.text-sm.font-medium.text-gray-500 結果
+            dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2
+              = simple_format(@creation.content_body)
 
-        .bg-white.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
-          dt.text-sm.font-medium.text-gray-500 コンテンツ
-          dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2
-            = simple_format(@creation.content_body)
+          - if @creation.evaluation_service.present?
+            .bg-white.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
+              dt.text-sm.font-medium.text-gray-500 評価
+              dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2 = @creation.evaluation_service
 
-        .bg-gray-50.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
-          dt.text-sm.font-medium.text-gray-500 入力
-          dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2
-            - service_class = "Assistants::#{@creation.assistant_service.camelize}".constantize
-            - form_fields = service_class.form_fields
-            - form_fields.each do |field|
-              .mb-2
-                strong = "#{field[:label]}"
-                br
-                = @creation.original_prompt[field[:name]]
+            .bg-gray-50.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
+              dt.text-sm.font-medium.text-gray-500 評価プロセス
+              dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2 = @creation.evaluation_process
 
-        .bg-white.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
-          dt.text-sm.font-medium.text-gray-500 評価
-          dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2 = @creation.evaluation_service
+            .bg-white.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
+              dt.text-sm.font-medium.text-gray-500 評価スコア
+              dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2 = @creation.evaluation_score
 
-        .bg-gray-50.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
-          dt.text-sm.font-medium.text-gray-500 評価プロセス
-          dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2 = @creation.evaluation_process
-
-        .bg-white.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
-          dt.text-sm.font-medium.text-gray-500 評価スコア
-          dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2 = @creation.evaluation_score
-
-        .bg-gray-50.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
-          dt.text-sm.font-medium.text-gray-500 評価コメント
-          dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2 = @creation.evaluation_comment
+            .bg-gray-50.px-4.py-5.sm:grid.sm:grid-cols-3.sm:gap-4.sm:px-6
+              dt.text-sm.font-medium.text-gray-500 評価コメント
+              dd.mt-1.text-sm.text-gray-900.sm:mt-0.sm:col-span-2 = @creation.evaluation_comment
+- else              
+  .text-center
+    | 生成中です...
