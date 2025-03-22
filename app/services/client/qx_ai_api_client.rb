@@ -15,7 +15,7 @@ module Client
       Rails.logger.debug("QX API リクエストパラメータ詳細: #{params.inspect}")
       
       # リクエストボディを作成
-      request_body = { "body" => params["body"] }
+      request_body = params
       Rails.logger.debug("QX API リクエストボディ詳細: #{request_body.inspect}")
       
       begin
@@ -31,7 +31,7 @@ module Client
         Rails.logger.debug("QX API レスポンス詳細: body=#{response.body.inspect}")
         
         if response.status == 200 || response.status == 202
-          result = response.body
+          result = response.body.is_a?(String) ? JSON.parse(response.body) : response.body
           request_id = result["request_id"]
           Rails.logger.info("QX API リクエストID取得成功: request_id=#{request_id}, status=#{result['status']}")
           
@@ -109,7 +109,7 @@ module Client
       Rails.logger.debug("QX API 非同期リクエストパラメータ詳細: #{params.inspect}")
       
       begin
-        request_body = { "body" => params["body"] }
+        request_body = params
         Rails.logger.debug("QX API 非同期リクエストボディ詳細: #{request_body.inspect}")
         
         Rails.logger.info("QX API 非同期リクエスト送信: service=#{service}, user_id=#{user_id}")
@@ -157,13 +157,17 @@ module Client
     end
 
     # リクエスト結果をポーリングする
-    def poll_request(request_id:, user_id:, callback_class:, callback_method:, retry_count: 0, polling_interval: nil)
+    def poll_request(service:, request_id:, user_id:, callback_class:, callback_method:, retry_count: 0, polling_interval: nil)
       polling_interval ||= @polling_interval
       Rails.logger.info("QX API ポーリング実行: request_id=#{request_id}, 試行回数=#{retry_count}/12")
+      # poll_url = "#{BASE_URL}/results/#{request_id}"
+      poll_url = "#{BASE_URL}/projects/#{service}/async/#{request_id}"
+      Rails.logger.info("QX API ポーリング実行: URL=#{poll_url}, request_id=#{request_id}, 試行回数=#{retry_count}/12")
+      log_curl_request("GET", poll_url, @api_key)
       
       begin
         # 結果を確認
-        response = connection.get("#{BASE_URL}/results/#{request_id}") do |req|
+        response = connection.get(poll_url) do |req|
           req.headers['X-API-Key'] = @api_key
         end
         
@@ -190,6 +194,7 @@ module Client
               Thread.new do
                 sleep(polling_interval)
                 poll_request(
+                  service: service,
                   request_id: request_id,
                   user_id: user_id,
                   callback_class: callback_class,

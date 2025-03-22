@@ -12,9 +12,12 @@ class ChatChannel < ApplicationCable::Channel
     chat_room = ChatRoom.find_by(uid: params[:uid])
     return unless chat_room
     
+    # Get the user message
+    user_message = data['message']
+    
     # Save the human message
     human_message = chat_room.messages.create!(
-      content: data['message'],
+      content: user_message,
       sender_type: 'human'
     )
     
@@ -24,9 +27,9 @@ class ChatChannel < ApplicationCable::Channel
       { message: human_message.content, sender_type: human_message.sender_type, id: human_message.id }
     )
     
-    # Get random AI response from controller
+    # Get AI response from controller, passing the user's message
     controller = ChatsController.new
-    ai_response = controller.generate_ai_response
+    ai_response = controller.generate_ai_response(chat_room,user_message)
     
     # Create and save the AI response
     ai_message = chat_room.messages.create!(
