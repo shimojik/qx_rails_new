@@ -26,6 +26,10 @@ html
             - is_selected = @selected_ai_service == service[:name]
             div class="px-8 py-1 text-sm #{is_selected ? 'bg-white font-bold text-black' : 'hover:bg-white hover:font-bold hover:text-black'}"
               = link_to "#{service[:info][:name]}", "/creations?ai=#{service[:name]}"
+          
+          .px-6.pb-1.mt-4 チャット
+          div class="px-8 py-1 text-sm hover:bg-white hover:font-bold hover:text-black"
+            = link_to "新規チャット", chats_path, method: :post, data: { turbo_method: :post }
       div[class='w-full md:w-3/4']
         = render 'shared/flash_messages'
         div.bg-gray-100.rounded.px-6.py-4

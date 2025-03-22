@@ -7,4 +7,4 @@ import { myFunction } from "./my_module";
 import "custom/fadenotification";
 document.addEventListener("DOMContentLoaded", () => {
     myFunction();
-});
+});import "channels"

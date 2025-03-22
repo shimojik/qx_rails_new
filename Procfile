@@ -1,2 +1,3 @@
-web: bin/rails server -p $PORT -e $RAILS_ENV
-worker: bundle exec sidekiq -C config/sidekiq.yml
+web:  bundle exec puma -C config/puma.rb
+worker: bundle exec rake solid_queue:start
+release: bundle exec rake db:migrate
