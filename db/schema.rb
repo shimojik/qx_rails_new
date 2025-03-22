@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_22_000002) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_22_000004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "chat_rooms", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_chat_rooms_on_user_id"
+  end
 
   create_table "creations", force: :cascade do |t|
     t.string "uid"
@@ -30,6 +38,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_22_000002) do
     t.datetime "updated_at", null: false
     t.index ["uid"], name: "index_creations_on_uid"
     t.index ["user_id"], name: "index_creations_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "chat_room_id", null: false
+    t.text "content"
+    t.string "sender_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -172,7 +189,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_22_000002) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "chat_rooms", "users"
   add_foreign_key "creations", "users"
+  add_foreign_key "messages", "chat_rooms"
   add_foreign_key "solid_cable_messages", "solid_cable_streams", column: "stream_id", on_delete: :cascade
   add_foreign_key "solid_cable_subscriptions", "solid_cable_streams", column: "stream_id", on_delete: :cascade
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

@@ -1,5 +1,5 @@
 class CreateCreationJob
-  include Sidekiq::Worker
+  queue_as :default
 
   def perform(creation_id, params)
     creation = Creation.find(creation_id)

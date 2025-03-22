@@ -1,0 +1,37 @@
+.chat-container id="chat-container" data-chat-room-uid=@chat_room.uid
+  h1.text-2xl.font-bold.mb-4 Chat Room
+  
+  .chat-box.border.rounded-lg.p-4.bg-gray-50.mb-4
+    .chat-history.overflow-y-auto.h-96
+      - @messages.each do |message|
+        .message class=message.sender_type
+          .message-content = message.content
+  
+  = form_with model: @message, url: '#', html: { id: 'message-form', class: 'flex' } do |f|
+    = f.text_field :content, id: 'message-input', placeholder: 'Type your message here...', class: 'flex-grow px-3 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+    = f.submit 'Send', class: 'bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-r-lg'
+
+css:
+  .message {
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    max-width: 80%;
+  }
+  
+  .message.human {
+    background-color: #E5F2FF;
+    align-self: flex-end;
+    margin-left: auto;
+  }
+  
+  .message.ai {
+    background-color: #F0F0F0;
+    align-self: flex-start;
+    margin-right: auto;
+  }
+  
+  .chat-history {
+    display: flex;
+    flex-direction: column;
+  }
