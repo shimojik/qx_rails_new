@@ -26,6 +26,9 @@ gem 'langchainrb'
 gem 'solid_queue'
 gem 'solid_cache'
 gem 'solid_cable'
+gem 'httpclient'
+gem 'redcarpet'
+gem 'aws-sdk-lambda', '~> 1.0'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]

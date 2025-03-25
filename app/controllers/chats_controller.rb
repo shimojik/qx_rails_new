@@ -1,6 +1,7 @@
 class ChatsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_chat_room, only: [:show]
+  before_action :check_chat_owner, only: [:show]
   
   def show
     @messages = @chat_room.messages.ordered
@@ -17,38 +18,37 @@ class ChatsController < ApplicationController
     end
   end
   
-  # AIメッセージの応答を生成するメソッド
-  def generate_ai_response(chat_room = nil, message = nil)
-    client = Client::QxAiApiClient.new
-
-    # チャット履歴を取得（実際の実装に合わせて調整が必要）
-    chat_history = chat_room.messages.order(created_at: :asc).last(15).map { |m| "#{m.sender_type}: #{m.content}" }.join("\n")
-
-    # QX AI APIにリクエストを送信
-    params = {
-      "body" => {
-        "chat_history" => chat_history,
-        "new_message" => message
-      }
-    }
+  # def generate_ai_response(chat_room = nil, message = nil)
+  #   chat_history = chat_room.messages.order(created_at: :asc).last(15).map { |m| "#{m.sender_type}: #{m.content}" }.join("\n")
+  #   lambda_service = EnhancedLambdaService.new
+  #   params = {
+  #     "chat_history" => chat_history,
+  #     "new_message" => message
+  #   }
     
-    response = client.run_request(
-      service: 'blog/article_generator',
-      params: params
-    )
-
-    if response["error"]
-      # エラーの場合はエラーメッセージを返す
-      "エラーが起きました(#{response["error"]})"
-    else
-      # 成功の場合はレスポンスの本文を返す
-      response["result"]["body"] || "返信がありませんでした"
-    end
-  end
+  #   begin
+  #     response = lambda_service.invoke_with_retry('chat_response', params, max_retries: 2)
+  #     if response["error"]
+  #       "エラーが起きました(#{response["error"]})"
+  #     else
+  #       response["response"] || response["content"] || response["answer"] || "返信がありませんでした"
+  #     end
+  #   rescue => e
+  #     Rails.logger.error("Lambda呼び出しエラー: #{e.message}")
+  #     "エラーが起きました: #{e.message}"
+  #   end
+  # end
   
   private
   
   def set_chat_room
     @chat_room = ChatRoom.find_by!(uid: params[:uid])
+  end
+  
+  def check_chat_owner
+    unless @chat_room.user == current_user
+      flash[:alert] = "このチャットへのアクセス権限がありません。"
+      redirect_to root_path
+    end
   end
 end

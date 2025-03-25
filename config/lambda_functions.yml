@@ -1,0 +1,19 @@
+default: &default
+  function_name: qxai_api_langchain
+  region: ap-northeast-1
+
+development:
+  <<: *default
+  function_name: qxai_api_langchain
+
+test:
+  <<: *default
+  function_name: qxai_api_langchain
+
+staging:
+  <<: *default
+  function_name: qxai_api_langchain
+
+production:
+  <<: *default
+  function_name: qxai_api_langchain

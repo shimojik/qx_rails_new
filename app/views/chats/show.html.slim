@@ -1,11 +1,12 @@
 .chat-container id="chat-container" data-chat-room-uid=@chat_room.uid
-  h1.text-2xl.font-bold.mb-4 Chat Room
-  
+  h1.text-2xl.font-bold.mb-2 チャット
   .chat-box.border.rounded-lg.p-4.bg-gray-50.mb-4
-    .chat-history.overflow-y-auto.h-96
+    .chat-history.overflow-y-auto.h-96 id="chat-history"
       - @messages.each do |message|
-        .message class=message.sender_type
-          .message-content = message.content
+        .message class= message.sender_type
+          .message-sender
+            = "#{message.sender_type_to_s}"
+          .message-content = raw markdown message.content
   
   = form_with model: @message, url: '#', html: { id: 'message-form', class: 'flex' } do |f|
     = f.text_field :content, id: 'message-input', placeholder: 'メッセージを入力...', class: 'flex-grow px-3 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500', autocomplete: 'off'
@@ -17,6 +18,7 @@ css:
     padding: 0.5rem 1rem;
     border-radius: 1rem;
     max-width: 80%;
+    border: 1px solid #ddd;
   }
   
   .message.human {
@@ -35,3 +37,17 @@ css:
     display: flex;
     flex-direction: column;
   }
+  
+  .message-sender {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 0.2rem;
+  }
+
+javascript:
+  document.addEventListener('DOMContentLoaded', function() {
+    const chatHistory = document.getElementById('chat-history');
+    if (chatHistory) {
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+  });
