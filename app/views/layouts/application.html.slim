@@ -7,7 +7,7 @@ html
     = csp_meta_tag
     = stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload"
     = javascript_importmap_tags
-  body
+  body.flex.flex-col.h-screen
     .bg-black.text-white.text-xl.py-2.border-b-3.header-wrap-container
       .mx-4.md:mx-6.flex.justify-between.items-center
         .logo
@@ -18,7 +18,7 @@ html
           - else
             .item= link_to 'ログイン', new_user_session_path
             .item= link_to '新規登録', new_user_registration_path
-    .flex.mt-2.mx-2.mx-auto[class='space-x-0 md:space-x-2 px-2']
+    .flex.flex-grow.overflow-hidden.mx-2.mt-2[class='space-x-0 md:space-x-2 px-2']
       .bg-black.text-white.py-4.rounded.shadow-xl.border-r-2.space-y-4.overflow-auto[class='w-1/4 hidden md:block']
         .section
           .px-6.pb-1 機能一覧
@@ -30,7 +30,7 @@ html
           .px-6.pb-1.mt-4 チャット
           div class="px-8 py-1 text-sm hover:bg-white hover:font-bold hover:text-black"
             = link_to "新規チャット", chats_path, method: :post, data: { turbo_method: :post }
-      div[class='w-full md:w-3/4']
+      div.flex.flex-col.h-full.overflow-hidden[class='w-full md:w-3/4']
         = render 'shared/flash_messages'
-        div.bg-gray-100.rounded.px-6.py-4
+        div.bg-white.rounded.px-6.py-4.flex-grow.overflow-auto
           = yield

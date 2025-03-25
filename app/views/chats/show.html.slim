@@ -1,48 +1,17 @@
-.chat-container id="chat-container" data-chat-room-uid=@chat_room.uid
+.chat-container.flex.flex-col.h-full id="chat-container" data-chat-room-uid=@chat_room.uid
   h1.text-2xl.font-bold.mb-2 チャット
-  .chat-box.border.rounded-lg.p-4.bg-gray-50.mb-4
-    .chat-history.overflow-y-auto.h-96 id="chat-history"
+  .chat-box.flex-grow.flex.flex-col.overflow-hidden
+    .chat-history.flex-grow.overflow-y-auto.p-4 id="chat-history"
       - @messages.each do |message|
-        .message class= message.sender_type
-          .message-sender
+        .message class="#{message.sender_type} mb-4 p-2 px-4 rounded-2xl max-w-[80%] border border-gray-200 #{message.sender_type == 'human' ? 'bg-blue-50 self-end ml-auto' : 'bg-gray-100 self-start mr-auto'}"
+          .message-sender.text-xs.text-gray-500.mb-1
             = "#{message.sender_type_to_s}"
           .message-content = raw markdown message.content
   
-  = form_with model: @message, url: '#', html: { id: 'message-form', class: 'flex' } do |f|
-    = f.text_field :content, id: 'message-input', placeholder: 'メッセージを入力...', class: 'flex-grow px-3 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500', autocomplete: 'off'
-    = f.submit '送信', class: 'bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-r-lg'
-
-css:
-  .message {
-    margin-bottom: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
-    max-width: 80%;
-    border: 1px solid #ddd;
-  }
-  
-  .message.human {
-    background-color: #E5F2FF;
-    align-self: flex-end;
-    margin-left: auto;
-  }
-  
-  .message.ai {
-    background-color: #F0F0F0;
-    align-self: flex-start;
-    margin-right: auto;
-  }
-  
-  .chat-history {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .message-sender {
-    font-size: 0.8rem;
-    color: #666;
-    margin-bottom: 0.2rem;
-  }
+  .message-input-container.p-4
+    = form_with model: @message, url: '#', html: { id: 'message-form', class: 'flex' } do |f|
+      = f.text_field :content, id: 'message-input', placeholder: 'メッセージを入力...', class: 'flex-grow px-3 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500', autocomplete: 'off'
+      = f.submit '送信', class: 'bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-r-lg'
 
 javascript:
   document.addEventListener('DOMContentLoaded', function() {

@@ -33,11 +33,18 @@ document.addEventListener('turbo:load', function() {
       received(data) {
         // Create message element
         const messageContainer = document.createElement('div');
-        messageContainer.classList.add('message', data.sender_type);
+        messageContainer.classList.add('message', data.sender_type, 'mb-4', 'p-2', 'px-4', 'rounded-2xl', 'max-w-[80%]', 'border', 'border-gray-200');
+        
+        // sender_typeに応じたスタイリングを追加
+        if (data.sender_type === 'human') {
+          messageContainer.classList.add('bg-blue-50', 'self-end', 'ml-auto');
+        } else {
+          messageContainer.classList.add('bg-gray-100', 'self-start', 'mr-auto');
+        }
         
         // 送信者表示を追加
         const messageSender = document.createElement('div');
-        messageSender.classList.add('message-sender');
+        messageSender.classList.add('message-sender', 'text-xs', 'text-gray-500', 'mb-1');
         messageSender.textContent = senderTypeToString(data.sender_type);
         messageContainer.appendChild(messageSender);
         
